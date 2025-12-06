@@ -15,10 +15,12 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '4.8.X'  # Adjust based on project requirements
+    # No need to setup .NET - .NET Framework is pre-installed on windows-latest
+    # If the project uses .NET Core/5+, uncomment and adjust version:
+    # - name: Setup .NET
+    #   uses: actions/setup-dotnet@v4
+    #   with:
+    #     dotnet-version: '6.0.x'
         
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v2
