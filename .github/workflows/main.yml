@@ -1,10 +1,6 @@
 name: Build .NET Binary
 
 on:
-  push:
-    branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
   workflow_dispatch:  # Allows manual trigger
 
 jobs:
@@ -12,29 +8,20 @@ jobs:
     runs-on: windows-latest
     
     steps:
-    - name: Checkout code
+    - name: Checkout repository
       uses: actions/checkout@v4
       
-    # No need to setup .NET - .NET Framework is pre-installed on windows-latest
-    # If the project uses .NET Core/5+, uncomment and adjust version:
-    # - name: Setup .NET
-    #   uses: actions/setup-dotnet@v4
-    #   with:
-    #     dotnet-version: '6.0.x'
-        
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v2
       
     - name: Restore NuGet packages
-      run: nuget restore *.sln
+      run: nuget restore Certify.sln
       
     - name: Build solution
-      run: msbuild *.sln /p:Configuration=Release /p:Platform="Any CPU"
+      run: msbuild Certify.sln /p:Configuration=Release /p:Platform="Any CPU"
       
-    - name: Upload build artifacts
+    - name: Upload build executable
       uses: actions/upload-artifact@v4
       with:
-        name: compiled-binary
-        path: |
-          **/bin/Release/*.exe
-          **/bin/Release/*.dll
+        name: Certify-Release
+        path: Certify/bin/Release/
