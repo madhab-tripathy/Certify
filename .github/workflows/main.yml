@@ -1,0 +1,38 @@
+name: Build .NET Binary
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:  # Allows manual trigger
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '4.7.2'  # Adjust based on project requirements
+        
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1.1
+      
+    - name: Restore NuGet packages
+      run: nuget restore *.sln
+      
+    - name: Build solution
+      run: msbuild *.sln /p:Configuration=Release /p:Platform="Any CPU"
+      
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: compiled-binary
+        path: |
+          **/bin/Release/*.exe
+          **/bin/Release/*.dll
