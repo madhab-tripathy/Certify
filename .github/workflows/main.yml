@@ -1,4 +1,4 @@
-name: Build .NET Binary
+name: Build Certify Binary
 
 on:
   workflow_dispatch:  # Allows manual trigger
@@ -17,10 +17,10 @@ jobs:
     - name: Restore NuGet packages
       run: nuget restore Certify.sln
       
-    - name: Build solution
+    - name: Build Release
       run: msbuild Certify.sln /p:Configuration=Release /p:Platform="Any CPU"
       
-    - name: Upload build executable
+    - name: Upload built executable
       uses: actions/upload-artifact@v4
       with:
         name: Certify-Release
