@@ -18,7 +18,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '4.7.2'  # Adjust based on project requirements
+        dotnet-version: '4.8.X'  # Adjust based on project requirements
         
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v2
